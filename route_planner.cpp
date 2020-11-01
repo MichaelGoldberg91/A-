@@ -49,6 +49,9 @@ current_node->FindNeighbors();
 //loop through neighbors
 for(RouteModel::Node* n : current_node->neighbors)
 {
+if(!n->visited)
+
+n->parent = current_node;
 
 //setting g value
 n->g_value = current_node->g_value + current_node->distance(*n);
@@ -75,7 +78,7 @@ n->visited = true;
 // - Remove that node from the open_list.
 // - Return the pointer.
 
-bool compareFValue(const RouteModel::Node* a, const RouteModel::Node*b)
+bool RoutePlanner::compareFValue(const RouteModel::Node* a, const RouteModel::Node*b)
 {
 
 auto aNodeFValue = a->g_value + a->h_value;
@@ -119,7 +122,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 
     // TODO: Implement your solution here.
 
-while (current_node != nullptr)
+while (current_node->parent != nullptr)
 {
 
 //add distance
@@ -130,7 +133,7 @@ path_found.push_back(*current_node);
 
 //make current node the parent for next while loop
 current_node = current_node->parent;
-    
+
 
 }
 
