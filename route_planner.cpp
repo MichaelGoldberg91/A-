@@ -12,10 +12,10 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
     // Store the nodes you find in the RoutePlanner's start_node and end_node attributes.
 
     //seting start node (start x and start y variables)
-    start_node = &m_Model.FindClosestNode(start_x,start_y);
+    this->start_node = &m_Model.FindClosestNode(start_x,start_y);
 
     //setting end node (end x and end y variables)
-    end_node = &m_Model.FindClosestNode(end_x,end_y);
+    this->end_node = &m_Model.FindClosestNode(end_x,end_y);
     
 }
 
@@ -28,7 +28,7 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
 float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 
 //return h value using distance function
-return node->distance(*(this->end_node));
+return node->distance(*this->end_node);
 
 
 }
@@ -54,7 +54,7 @@ if(!n->visited)
 n->parent = current_node;
 
 //setting g value
-n->g_value = current_node->g_value + current_node->distance(*n);
+n->g_value = current_node->g_value + n->distance(*n);
 
 //setting h value
 n->h_value = this->CalculateHValue(n);
